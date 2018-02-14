@@ -26,6 +26,13 @@ class PriceModelTests(TestCase):
         price = Price.objects.create(metal=self.gold, value=3110.0)
         self.assertEqual(price.value_per_gram, 100.0)
 
+    def test_last_value_per_oz_empty(self):
+        for value in range(5000, 0, -1000):
+            Price.objects.create(metal=self.gold, value=value)
+            time.sleep(0.1)
+        Price.objects.create(metal=self.silver, value=10000.0)
+        self.assertEqual(Price.last_value_per_oz(self.gold), 1000.0)
+
     def test_last_value_per_gram_empty(self):
         self.assertIsNone(Price.last_value_per_gram(self.gold))
 
