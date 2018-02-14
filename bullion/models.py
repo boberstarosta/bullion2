@@ -39,7 +39,7 @@ class Price(models.Model):
 
     @classmethod
     def last_value_per_gram(cls, metal):
-        last_price = cls.objects.order_by('-time').first()
+        last_price = cls.objects.filter(metal=metal).order_by('-time').first()
         if last_price:
             return last_price.value_per_gram
         else:
