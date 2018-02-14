@@ -15,6 +15,10 @@ class Metal(models.Model):
         verbose_name = 'Metal'
         verbose_name_plural = 'Metale'
 
+    @property
+    def last_price(self):
+        return Price.last_value_per_gram(self)
+
     def __str__(self):
         return self.name
 
@@ -35,7 +39,11 @@ class Price(models.Model):
 
     @classmethod
     def last_value_per_gram(cls, metal):
-        return cls.objects.order_by('-time').first().value_per_gram
+        last_price = cls.objects.order_by('-time').first()
+        if last_price:
+            return last_price.value_per_gram
+        else:
+            return None
 
     def __str__(self):
         return '{} {} {}'.format(self.metal, self.time.strftime('%Y-%m-%d %H:%M:%S'), self.value)
