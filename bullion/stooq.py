@@ -24,10 +24,17 @@ def get_stooq_price(name):
 
 def update_metal_prices():
     for metal in Metal.objects.all():
-        now = timezone.now()
-        last = metal.last_price.time
-        max_interval = datetime.timedelta(seconds=settings.PRICE_MIN_UPDATE_INTERVAL)
-        if now - last > max_interval:
+        proceed = False
+        last_price = metal.last_price
+        if last_price is None:
+            proceed = True
+        else:
+            now = timezone.now()
+            last = metal.last_price.time
+            max_interval = datetime.timedelta(seconds=settings.PRICE_MIN_UPDATE_INTERVAL)
+            if now - last > max_interval:
+                proceed = True
+        if proceed:
             stooq_price = get_stooq_price(metal.stooq_symbol)
             if stooq_price is not None:
                 Price.objects.create(metal=metal, value_per_oz=stooq_price)
