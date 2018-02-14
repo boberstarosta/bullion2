@@ -24,6 +24,7 @@ class Metal(models.Model):
         for metal in self.__class__.objects.all():
             price = metal.last_price
             data[metal.stooq_symbol] = {
+                'time': price.time,
                 'pricePerOz': price.value_per_oz,
                 'pricePerGram': price.value_per_gram,
             }

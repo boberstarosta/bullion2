@@ -43,16 +43,20 @@
         }
     });
 
-    function updatePrices() {
+    function updatePricesOnPage(data) {
+        $.each(data, function(k, v) {
+            console.log(k + ': oz=' + v.pricePerOz + ' g=' + v.pricePerGram)
+        });
+    }
+
+    function sendUpdatePricesRequest() {
         $.ajax({
             url: '{% url 'update_metal_prices' %}',
             type: 'POST',
             data: {},
             dataType: 'json',
             success: function (data) {
-                console.log('AJAX succeeded');
-                console.log(data.XAUPLN.pricePerOz);
-                console.log(data.XAUPLN.pricePerGram);
+                updatePricesOnPage(data)
             },
             error: function(xhr, textStatus, error) {
                 console.log('AJAX error: ' + xhr.status + ' ' + error)
@@ -62,7 +66,7 @@
 
     $(document).ready( function() {
         console.log('document ready fired!');
-        updatePrices();
+        sendUpdatePricesRequest();
     });
 
     setInterval(function () {
