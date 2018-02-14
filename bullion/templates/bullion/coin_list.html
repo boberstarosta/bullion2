@@ -1,32 +1,5 @@
 {% extends 'bullion/base.html' %}
 
-{% block head %}
-
-<!-- https://datatables.net/examples/styling/bootstrap.html -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#coinTable').DataTable( {
-            "paging":   false,
-            "ordering": true,
-            "info":     false,
-            "dom":      '<"pull-left"f>tilpr',
-            order: [[ 1, 'asc' ]],
-            "columnDefs": [{ "targets": [0], "searchable": false, "orderable": false, "visible": true }],
-            "language": {
-                "decimal": ",",
-                "thousands": ".",
-                search: "_INPUT_",
-                searchPlaceholder: "Szukaj...",
-            }
-        } );
-    } );
-</script>
-
-{% endblock %}
-
 {% block title %}Monety{% endblock %}
 
 {% block content %}
@@ -65,7 +38,7 @@
                         <td>{{ coin.metal.short_name }}</td>
                         <td>{{ coin.fineness }}</td>
                         <td>{{ coin.weight }}</td>
-                        <td class="text-right">{{ coin.price|floatformat:2 }}</td>
+                        <td id="coin_{{ coin.pk }}" class="text-right">{{ coin.price|floatformat:2 }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -74,5 +47,62 @@
         <p class="text-center">Nie ma żadnych monet do pokazania.</p>
     {% endif %}
 </div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        }
+    });
+
+    function updatePricesOnPage(data) {
+    }
+
+    function sendUpdatePricesRequest() {
+        data = {};
+        $.ajax({
+            url: '{% url 'update_coin_prices' %}',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                updatePricesOnPage(data)
+            },
+            error: function(xhr, textStatus, error) {
+                console.log('AJAX error: ' + xhr.status + ' ' + error)
+            }
+        })
+    }
+
+    function sendGetPricesRequest() {
+        data = {};
+        $.ajax({
+            url: '{% url 'get_coin_prices' %}',
+            type: 'GET',
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                updatePricesOnPage(data)
+            },
+            error: function(xhr, textStatus, error) {
+                console.log('AJAX error: ' + xhr.status + ' ' + error)
+            }
+        })
+    }
+
+    $(document).ready( function() {
+        sendGetPricesRequest();
+        sendUpdatePricesRequest();
+    });
+
+    setInterval(function () {
+        sendUpdatePricesRequest();
+    }, 10000);
+
+</script>
 
 {% endblock %}

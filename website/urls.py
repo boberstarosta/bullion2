@@ -12,5 +12,7 @@ urlpatterns = [
     path('coins/<int:pk>/delete', views.CoinDeleteView.as_view(), name='coin_delete'),
     path('update_metal_prices/', views.UpdateMetalPricesView.as_view(), name='update_metal_prices'),
     path('get_metal_prices/', views.GetMetalPricesView.as_view(), name='get_metal_prices'),
+    path('update_coin_prices/', views.UpdateCoinPricesView.as_view(), name='update_coin_prices'),
+    path('get_coin_prices/', views.GetCoinPricesView.as_view(), name='get_coin_prices'),
     path('admin/', admin.site.urls),
 ]
