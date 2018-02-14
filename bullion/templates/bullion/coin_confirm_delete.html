@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Kasowanie{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="alert alert-danger">
+            <form action="" method="post">
+                {% csrf_token %}
+                <h3>Potwierdź usunięcie</h3>
+                <h5>{{ object }}</h5>
+                <input class="btn btn-danger" type="submit" value="Potwierdź" />
+                <button onclick="window.history.back();" class="btn btn-default" type="button">Anuluj</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ coin.inline_text }}{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    <h3>{{ coin.inline_text }}</h3>
+                </div>
+
+                <div class="panel-body">
+                    <h3><small>cena ({{coin.metal.last_price_time}})</small></h3>
+                    <h1><span class="label label-warning">{{ coin.price|floatformat:2 }} zł</span></h1>
+                    <hr>
+                    <table>
+                        <tr><td>{{ coin.country }}</td></tr>
+                        <tr><td>{{ coin.face_value }}</td></tr>
+                        <tr><td>{{ coin.mint_dates }}</td></tr>
+                        <tr><td>{{ coin.comments }}</td></tr>
+                        <tr><td>{{ coin.metal }}</td></tr>
+                        <tr><td>{{ coin.weight }} g</td></tr>
+                        <tr><td>{{ coin.fineness }} /1000</td></tr>
+                        <tr><td>{{ coin.metal.last_price_time }}</td></tr>
+                    </table>
+                </div>
+
+                <div class="panel-footer">
+                    <a href="{% url 'coin_update' coin.pk %}" class="btn btn-default btn-sm" role="button" title="Edytuj">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    <a href="{% url 'coin_delete' coin.pk %}" class="btn btn-default btn-sm" role="button", title="Usuń">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
