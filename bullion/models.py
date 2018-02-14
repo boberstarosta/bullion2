@@ -16,12 +16,8 @@ class Metal(models.Model):
         verbose_name_plural = 'Metale'
 
     @property
-    def last_price_per_oz(self):
-        return Price.last_value_per_oz(self)
-
-    @property
-    def last_price_per_gram(self):
-        return Price.last_value_per_gram(self)
+    def last_price(self):
+        return Price.last_price(self)
 
     def __str__(self):
         return self.name
@@ -30,7 +26,7 @@ class Metal(models.Model):
 class Price(models.Model):
     metal = models.ForeignKey(Metal, on_delete=models.CASCADE, verbose_name='metal')
     time = models.DateTimeField(auto_now_add=True, verbose_name='czas')
-    value = models.FloatField(verbose_name='wartość')
+    value_per_oz = models.FloatField(verbose_name='wartość 1 oz')
 
     class Meta:
         verbose_name = 'Cena'
@@ -39,26 +35,14 @@ class Price(models.Model):
     @property
     def value_per_gram(self):
         # noinspection PyTypeChecker
-        return self.value / GRAMS_PER_OZ
+        return self.value_per_oz / GRAMS_PER_OZ
 
     @classmethod
-    def last_value_per_oz(cls, metal):
-        last_price = cls.objects.filter(metal=metal).order_by('-time').first()
-        if last_price:
-            return last_price.value
-        else:
-            return None
-
-    @classmethod
-    def last_value_per_gram(cls, metal):
-        last_price = cls.objects.filter(metal=metal).order_by('-time').first()
-        if last_price:
-            return last_price.value_per_gram
-        else:
-            return None
+    def last_price(cls, metal):
+        return cls.objects.filter(metal=metal).order_by('-time').first()
 
     def __str__(self):
-        return '{} {} {}'.format(self.metal, self.time.strftime('%Y-%m-%d %H:%M:%S'), self.value)
+        return '{} {} {}'.format(self.metal, self.time.strftime('%Y-%m-%d %H:%M:%S'), self.value_per_oz)
 
 
 class Coin(models.Model):
@@ -86,11 +70,11 @@ class Coin(models.Model):
 
     @property
     def last_price(self):
-        metal_price = self.metal.last_price_per_gram
+        metal_price = self.metal
         if metal_price is None:
             return None
         else:
-            return self.pure_weight * metal_price
+            return self.pure_weight * metal_price.value_per_gram
 
     def get_absolute_url(self):
         return reverse('coin_detail', kwargs={'pk': self.pk})
