@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import View, UpdateView, DeleteView
+from django.views.generic.edit import View, CreateView, UpdateView, DeleteView
 from . import forms, models, stooq
 
 

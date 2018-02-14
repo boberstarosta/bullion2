@@ -45,7 +45,7 @@
 
     function updatePricesOnPage(data) {
         $.each(data, function(k, v) {
-            console.log(k + ': oz=' + v.pricePerOz + ' g=' + v.pricePerGram)
+            console.log(k + '(' + v.time + '): oz=' + v.pricePerOz + ' g=' + v.pricePerGram)
         });
     }
 
