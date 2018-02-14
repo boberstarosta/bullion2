@@ -7,6 +7,15 @@ class MetalModelTests(TestCase):
     def setUp(self):
         self.gold = Metal.objects.create(stooq_symbol='XAUPLN', name='Gold', short='Au')
 
+    def test_last_price_per_oz_empty(self):
+        self.assertIsNone(self.gold.last_price_per_oz)
+
+    def test_last_price_per_oz(self):
+        for value in range(0, 4000, 1000):
+            Price.objects.create(metal=self.gold, value=value)
+            time.sleep(0.1)
+        self.assertEqual(self.gold.last_price_per_oz, 3000)
+
     def test_last_price_per_gram_empty(self):
         self.assertIsNone(self.gold.last_price_per_gram)
 

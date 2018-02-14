@@ -16,6 +16,10 @@ class Metal(models.Model):
         verbose_name_plural = 'Metale'
 
     @property
+    def last_price_per_oz(self):
+        return Price.last_value_per_oz(self)
+
+    @property
     def last_price_per_gram(self):
         return Price.last_value_per_gram(self)
 
