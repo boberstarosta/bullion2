@@ -21,12 +21,12 @@ class CoinDetailView(DetailView):
 
 class CoinCreateView(CreateView):
     model = models.Coin
-    form = forms.CoinModelForm
+    form_class = forms.CoinModelForm
 
 
 class CoinUpdateView(UpdateView):
     model = models.Coin
-    form = forms.CoinModelForm
+    form_class = forms.CoinModelForm
 
 
 class CoinDeleteView(DeleteView):
