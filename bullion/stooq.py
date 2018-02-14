@@ -1,7 +1,10 @@
+import datetime
 import re
 import requests
 from bs4 import BeautifulSoup
 from bullion.models import Metal, Price
+from django.conf import settings
+from django.utils import timezone
 
 
 def get_stooq_price(name):
@@ -21,6 +24,10 @@ def get_stooq_price(name):
 
 def update_metal_prices():
     for metal in Metal.objects.all():
-        stooq_price = get_stooq_price(metal.stooq_symbol)
-        if stooq_price is not None:
-            Price.objects.create(metal=metal, value_per_oz=stooq_price)
+        now = timezone.now()
+        last = metal.last_price.time
+        max_interval = datetime.timedelta(seconds=settings.PRICE_MIN_UPDATE_INTERVAL)
+        if now - last > max_interval:
+            stooq_price = get_stooq_price(metal.stooq_symbol)
+            if stooq_price is not None:
+                Price.objects.create(metal=metal, value_per_oz=stooq_price)
