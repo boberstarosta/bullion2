@@ -9,7 +9,7 @@ GRAMS_PER_OZ = 31.1
 class Metal(models.Model):
     stooq_symbol = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=50, verbose_name='nazwa')
-    short_name = models.CharField(max_length=10, verbose_name='skrócona nazwa')
+    short = models.CharField(max_length=10, verbose_name='skrócona nazwa')
 
     class Meta:
         verbose_name = 'Metal'
