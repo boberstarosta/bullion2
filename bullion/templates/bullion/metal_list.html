@@ -37,20 +37,31 @@
 {% block javascript %}
 
 <script>
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        }
+    });
 
-    function updatePrices () {
+    function updatePrices() {
         $.ajax({
             url: '{% url 'update_metal_prices' %}',
+            type: 'POST',
             data: {},
             dataType: 'json',
             success: function (data) {
-                console.log('ajax succeeded');
+                console.log('AJAX succeeded');
+                console.log('response: ' + data.text);
+            },
+            error: function(xhr, textStatus, error) {
+                console.log('AJAX error: ' + xhr.status + ' ' + error)
             }
-        }
+        })
     }
 
     $(document).ready( function() {
         console.log('document ready fired!');
+        updatePrices();
     });
 
     setInterval(function () {

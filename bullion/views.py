@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, BaseUpdateView
@@ -36,4 +37,6 @@ class CoinDeleteView(DeleteView):
 
 class UpdateMetalPricesView(CreateView):
     def post(self, request):
-        print('')
+        print('UpdateMetalPrices POST received')
+        data = {'text': 'I am a JsonResponse from django'}
+        return JsonResponse(data)
