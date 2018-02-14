@@ -110,3 +110,6 @@ STATIC_URL = '/static/'
 
 
 LOGOUT_REDIRECT_URL = 'index'
+
+
+PRICES_MIN_INTERVAL = 15  # in seconds
