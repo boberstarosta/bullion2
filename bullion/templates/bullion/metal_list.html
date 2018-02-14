@@ -23,9 +23,9 @@
                     <tr>
                         <td class="text-center">{{ metal.name }}</td>
                         {% if metal.last_price_oz %}
-                            <td class="text-right">{{ metal.last_price_oz|floatformat:2 }}</td>
-                            <td class="text-right">{{ metal.last_price_gram|floatformat:2 }}</td>
-                            <td class="text-center">{{ metal.last_price_time }}</td>
+                            <td class="text-right">{{ metal.last_price.value_per_oz|floatformat:2 }}</td>
+                            <td class="text-right">{{ metal.last_price.value_per_gram|floatformat:2 }}</td>
+                            <td class="text-center">{{ metal.last_price.time }}</td>
                         {% endif %}
                     </tr>
                 {% endfor %}
