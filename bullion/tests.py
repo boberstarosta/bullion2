@@ -14,4 +14,4 @@ class PriceModelTests(TestCase):
 
     def test_value_per_gram(self):
         price = Price(metal=self.gold, value=3110.0)
-        self.assertEqual(price, 100.0)
+        self.assertEqual(price.value_per_gram, 100.0)
