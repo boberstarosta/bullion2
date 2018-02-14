@@ -37,7 +37,12 @@ class CoinDeleteView(DeleteView):
 
 class UpdateMetalPricesView(View):
     def post(self, request):
-        print('UpdateMetalPrices POST received')
         stooq.update_metal_prices()
+        data = models.Metal.last_prices_json()
+        return JsonResponse(data)
+
+
+class GetMetalPricesView(View):
+    def get(self, request):
         data = models.Metal.last_prices_json()
         return JsonResponse(data)

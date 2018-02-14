@@ -64,7 +64,23 @@
         })
     }
 
+    function sendGetPricesRequest() {
+        $.ajax({
+            url: '{% url 'get_metal_prices' %}',
+            type: 'GET',
+            data: {},
+            dataType: 'json',
+            success: function (data) {
+                updatePricesOnPage(data)
+            },
+            error: function(xhr, textStatus, error) {
+                console.log('AJAX error: ' + xhr.status + ' ' + error)
+            }
+        })
+    }
+
     $(document).ready( function() {
+        sendGetPricesRequest();
         sendUpdatePricesRequest();
     });
 
