@@ -32,25 +32,10 @@
 
             <!-- Nav Items -->
             <div class="collapse navbar-collapse" id="topNavBar">
-                <!-- Nav Menu -->
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'coin_list' %}"><span class="glyphicon glyphicon-list"></span>&nbsp;Lista</a></li>
-                </ul>
-                <!-- Nav Right -->
-                <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'coin_create' %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;Dodaj</a></li>
-                    {% if user.is_superuser %}
-                        <li>
-                            <a href="{% url 'admin:index' %}">Admin</a>
-                        </li>
-                    {% endif %}
-                    {% if user.is_authenticated %}
-                        <li>
-                            <a href="{% url 'logout' %}">
-                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;Wyloguj
-                            </a>
-                        </li>
-			        {% endif %}
+                    <li><a href="{% url 'admin:index' %}">Admin</a></li>
                 </ul>
             </div>
             <!-- end Nav Items -->
