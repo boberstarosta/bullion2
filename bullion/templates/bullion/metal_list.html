@@ -33,3 +33,30 @@
         </table>
     </div>
 {% endblock %}
+
+{% block javascript %}
+
+<script>
+
+    function updatePrices () {
+        $.ajax({
+            url: '{% url 'update_metal_prices' %}',
+            data: {},
+            dataType: 'json',
+            success: function (data) {
+                console.log('ajax succeeded');
+            }
+        }
+    }
+
+    $(document).ready( function() {
+        console.log('document ready fired!');
+    });
+
+    setInterval(function () {
+        console.log('setInterval() fired!');
+    }, 10000);
+
+</script>
+
+{% endblock %}
