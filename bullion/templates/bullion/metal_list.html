@@ -8,7 +8,6 @@
             <h1 class="text-center">Bullion</h1>
             <h3 class="text-center"><small>ceny monet na bieżąco</small></h3>
         </div>
-        <hr>
         <table class="table table-condensed">
             <thead>
                 <tr>
@@ -22,11 +21,9 @@
                 {% for metal in all_metals %}
                     <tr>
                         <td class="text-center">{{ metal.name }}</td>
-                        {% if metal.last_price_oz %}
-                            <td class="text-right">{{ metal.last_price.value_per_oz|floatformat:2 }}</td>
-                            <td class="text-right">{{ metal.last_price.value_per_gram|floatformat:2 }}</td>
-                            <td class="text-center">{{ metal.last_price.time }}</td>
-                        {% endif %}
+                        <td id="{{ metal.stooq_symbol }}_pricePerOz" class="text-right"></td>
+                        <td id="{{ metal.stooq_symbol }}_pricePerGram" class="text-right"></td>
+                        <td id="{{ metal.stooq_symbol }}_time" class="text-right"></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -44,8 +41,12 @@
     });
 
     function updatePricesOnPage(data) {
-        $.each(data, function(k, v) {
-            console.log(k + '(' + v.time + '): oz=' + v.pricePerOz + ' g=' + v.pricePerGram)
+        $.each(data, function(metal, price) {
+            console.log(metal + '(' + price.time + '): oz=' + price.pricePerOz + ' g=' + price.pricePerGram)
+            $.each(price, function(key, value) {
+                element = $('#' + metal + '_' + key);
+                element.text(value)
+            });
         });
     }
 
