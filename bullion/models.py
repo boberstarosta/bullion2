@@ -25,9 +25,9 @@ class Metal(models.Model):
         for metal in cls.objects.all():
             price = metal.last_price
             data[metal.stooq_symbol] = {
-                'time': price.time,
-                'pricePerOz': price.value_per_oz,
-                'pricePerGram': price.value_per_gram,
+                'time': price.time.strftime('%Y-%m-%d %H:%M:%S'),
+                'pricePerOz': '{:.2f}'.format(price.value_per_oz),
+                'pricePerGram': '{:.2f}'.format(price.value_per_gram),
             }
         return data
 
