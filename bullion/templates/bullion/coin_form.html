@@ -1,6 +1,8 @@
 {% extends 'bullion/base.html' %}
 
-{% block title %}Nowa Moneta{% endblock %}
+{% block title %}
+    {% if coin.pk %}{{ coin.inline_text }}{% else %}Nowa Moneta{% endif %}
+{% endblock %}
 
 {% block content %}
 {% load l10n %}
