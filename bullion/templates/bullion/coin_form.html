@@ -4,45 +4,39 @@
 
 {% block content %}
 {% load l10n %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-7">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3>Moneta</h3>
-                </div>
-                <div class="panel-body">
+<div class="container">
+    <div class="page-header">
+        {% if coin.pk %}
+            <h1>Moneta <small>{{ coin.inline_text }}</small></h1>
+        {% else %}
+            <h1>Nowa Moneta</h1>
+        {% endif %}
+    </div>
+    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-                    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
 
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-                        {% endif %}
-
-                        {% for field in form %}
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <span class="text-danger small">{{ field.errors }}</span>
-                                </div>
-                                <label class="control-label col-sm-3">
-                                    {% if field.field.required %}<span class="font-weight-normal small">(wymagane)</span>{% endif %}
-                                    {{ field.label_tag }}
-                                </label>
-                                <div class="col-sm-9">{{ field }}</div>
-                            </div>
-                        {% endfor %}
-
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success">Zapisz</button>
-                            </div>
-                        </div>
-                    </form>
-
+        {% for field in form %}
+            <div class="form-group {% if field.errors %}has-error{% endif %}">
+                <label class="control-label col-sm-2">
+                    {% if field.field.required %}<span class="font-weight-normal small">(wymagane)</span>{% endif %}
+                    {{ field.label_tag }}
+                </label>
+                <div class="col-sm-8">
+                    {{ field }}
+                    <span class="help-block">{{ field.errors }}</span>
                 </div>
             </div>
+        {% endfor %}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-8">
+                <button type="submit" class="btn btn-success">Zapisz</button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 {% endblock %}
