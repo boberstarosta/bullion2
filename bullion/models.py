@@ -16,7 +16,7 @@ class Metal(models.Model):
         verbose_name_plural = 'Metale'
 
     @property
-    def last_price(self):
+    def last_price_per_gram(self):
         return Price.last_value_per_gram(self)
 
     def __str__(self):
@@ -50,14 +50,15 @@ class Price(models.Model):
 
 
 class Coin(models.Model):
-    metal = models.ForeignKey(Metal, on_delete=models.CASCADE)
-    weight = models.FloatField(validators=[MinValueValidator(0.01)], verbose_name='waga [g]')
-    fineness = models.IntegerField(validators=[MinValueValidator(10), MaxValueValidator(1000)],
-                                   verbose_name='próba [/1000]')
     country = models.CharField(max_length=100, verbose_name='państwo')
     face_value = models.CharField(max_length=100, verbose_name='nominał')
     mint_years = models.CharField(max_length=100, verbose_name='lata wydania')
     description = models.CharField(max_length=200, blank=True, default='', verbose_name='opis')
+
+    metal = models.ForeignKey(Metal, on_delete=models.CASCADE)
+    weight = models.FloatField(validators=[MinValueValidator(0.01)], verbose_name='waga [g]')
+    fineness = models.IntegerField(validators=[MinValueValidator(10), MaxValueValidator(1000)],
+                                   verbose_name='próba [/1000]')
 
     class Meta:
         verbose_name = 'Moneta'
@@ -66,6 +67,18 @@ class Coin(models.Model):
     def inline_text(self):
         fields = [self.country, self.face_value, self.mint_years, self.description]
         return ' '.join(str(f) for f in fields)
+
+    @property
+    def pure_weight(self):
+        return self.weight * self.fineness / 1000
+
+    @property
+    def last_price(self):
+        metal_price = self.metal.last_price_per_gram
+        if metal_price is None:
+            return None
+        else:
+            return self.pure_weight * metal_price
 
     def get_absolute_url(self):
         return reverse('coin_detail', kwargs={'pk': self.pk})
