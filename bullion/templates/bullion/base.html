@@ -60,24 +60,8 @@
     <!-- end Navbar -->
 
     <!-- Page Content -->
-    {% block content %}
-    {% endblock %}
-    <!-- end Page Content -->
-
-<!-- Periodically send POST request to update prices on the server. -->
-<script>
-    $(document).ready(function()
-    {
-        var postdata={
-            'next': '{{ request.path }}',
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
-        }
-
-        setInterval(function(){
-            $.post('/', postdata);
-        }, 15000);
-    });
-</script>
+    {% block content %}{% endblock %}
+    {% block footer %}{% endblock %}
 
 </body>
 
