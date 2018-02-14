@@ -42,7 +42,6 @@
 
     function updatePricesOnPage(data) {
         $.each(data, function(metal, price) {
-            console.log(metal + '(' + price.time + '): oz=' + price.pricePerOz + ' g=' + price.pricePerGram)
             $.each(price, function(key, value) {
                 element = $('#' + metal + '_' + key);
                 element.text(value)
@@ -66,12 +65,11 @@
     }
 
     $(document).ready( function() {
-        console.log('document ready fired!');
         sendUpdatePricesRequest();
     });
 
     setInterval(function () {
-        console.log('setInterval() fired!');
+        sendUpdatePricesRequest();
     }, 10000);
 
 </script>
