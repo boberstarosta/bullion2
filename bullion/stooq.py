@@ -1,6 +1,7 @@
 import re
 import requests
 from bs4 import BeautifulSoup
+from bullion.models import Metal, Price
 
 
 def get_stooq_price(name):
@@ -16,3 +17,10 @@ def get_stooq_price(name):
             return float(tag.get_text())
         except ValueError:
             return None
+
+
+def update_metal_prices():
+    for metal in Metal.objects.all():
+        stooq_price = get_stooq_price(metal.stooq_symbol)
+        if stooq_price is not None:
+            Price.objects.create(metal=metal, value_per_oz=stooq_price)
