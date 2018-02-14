@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, BaseUpdateView
 from . import forms, models
 
 
@@ -32,3 +32,8 @@ class CoinUpdateView(UpdateView):
 class CoinDeleteView(DeleteView):
     model = models.Coin
     success_url = reverse_lazy('coin_list')
+
+
+class UpdateMetalPricesView(CreateView):
+    def post(self, request):
+        print('')
