@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, BaseUpdateView
+from django.views.generic.edit import View, UpdateView, DeleteView
 from . import forms, models, stooq
 
 
@@ -35,16 +35,9 @@ class CoinDeleteView(DeleteView):
     success_url = reverse_lazy('coin_list')
 
 
-class UpdateMetalPricesView(CreateView):
+class UpdateMetalPricesView(View):
     def post(self, request):
         print('UpdateMetalPrices POST received')
         stooq.update_metal_prices()
-        metals = models.Metal.objects.all()
-        data = {}
-        for metal in metals:
-            last_price = metal.last_price
-            data[metal.stooq_symbol] = {
-                'pricePerOz': last_price.value_per_oz,
-                'pricePerGram': last_price.value_per_gram,
-            }
+        data = models.Metal.last_prices_json()
         return JsonResponse(data)

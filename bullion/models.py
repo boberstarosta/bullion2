@@ -19,6 +19,16 @@ class Metal(models.Model):
     def last_price(self):
         return Price.last_price(self)
 
+    def last_prices_json(self):
+        data = {}
+        for metal in self.__class__.objects.all():
+            price = metal.last_price
+            data[metal.stooq_symbol] = {
+                'pricePerOz': price.value_per_oz,
+                'pricePerGram': price.value_per_gram,
+            }
+        return data
+
     def __str__(self):
         return self.name
 
