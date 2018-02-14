@@ -55,7 +55,7 @@ class Coin(models.Model):
     mint_years = models.CharField(max_length=100, verbose_name='lata wydania')
     description = models.CharField(max_length=200, blank=True, default='', verbose_name='opis')
 
-    metal = models.ForeignKey(Metal, on_delete=models.CASCADE)
+    metal = models.ForeignKey(Metal, on_delete=models.CASCADE, verbose_name='metal')
     weight = models.FloatField(validators=[MinValueValidator(0.01)], verbose_name='waga [g]')
     fineness = models.IntegerField(validators=[MinValueValidator(10), MaxValueValidator(1000)],
                                    verbose_name='próba [/1000]')
