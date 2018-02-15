@@ -12,7 +12,7 @@
                 <h3 class="text-center"><small>aktualne ceny monet</small></h3>
             </div>
             {% if all_coins %}
-                <input type="text" id="searchInput" onkeyup="search()" placeholder="Szukaj..." class="form-control">
+                <input type="text" id="searchInput" placeholder="Szukaj..." class="form-control">
 
                 <table class="table table-condensed table-coin-list">
                     <thead>
@@ -67,7 +67,7 @@
 
 <script>
 
-    function search() {
+    function initSearch() {
         var $rows = $('#coinTable tr');
         $('#searchInput').keyup(function() {
             var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
@@ -132,6 +132,7 @@
     $(document).ready( function() {
         sendGetPricesRequest();
         sendUpdatePricesRequest();
+        initSearch()
     });
 
     setInterval(function () {
