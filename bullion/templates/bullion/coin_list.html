@@ -9,7 +9,7 @@
         <h1 class="text-center">Monety</h1>
     </div>
     {% if all_coins %}
-        <table class="table table-condensed">
+        <table class="table table-condensed table-coin-list">
             <thead>
                 <tr>
                     <th></th>
@@ -19,7 +19,7 @@
                     <th class="text-center">Opis</th>
                     <th class="text-center">Metal</th>
                     <th class="text-center">Próba</th>
-                    <th class="text-center">Waga</th>
+                    <th class="text-right">Waga [g]</th>
                     <th class="text-right">Wartość</th>
                     <th class="text-right">Czas</th>
                 </tr>
@@ -41,8 +41,8 @@
                         <td>{{ coin.mint_years }}</td>
                         <td>{{ coin.description }}</td>
                         <td>{{ coin.metal.short }}</td>
-                        <td>{{ coin.fineness }}</td>
-                        <td>{{ coin.weight }}</td>
+                        <td class="text-right">{{ coin.fineness }}</td>
+                        <td class="text-right">{{ coin.weight|floatformat:2 }}</td>
                         <td class="text-right"><strong id="price_{{ coin.pk }}"></strong></td>
                         <td id="time_{{ coin.pk }}" class="text-right"></td>
                     </tr>

@@ -17,3 +17,6 @@ body {
   background-color: #f5f5f5;
   border-top: solid #e7e7e7 1px;
 }
+.table-coin-list tr:hover {
+  color: #b30000;
+}
