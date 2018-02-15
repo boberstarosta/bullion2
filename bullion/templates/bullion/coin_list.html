@@ -4,56 +4,61 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="page-header">
-        <h1 class="text-center">Monety</h1>
-    </div>
-    {% if all_coins %}
-        <input type="text" id="searchInput" onkeyup="search()" placeholder="Szukaj..." class="form-control">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+            <div class="page-header">
+                <h1 class="text-center">Monety</h1>
+                <h3 class="text-center"><small>aktualne ceny monet</small></h3>
+            </div>
+            {% if all_coins %}
+                <input type="text" id="searchInput" onkeyup="search()" placeholder="Szukaj..." class="form-control">
 
-        <table class="table table-condensed table-coin-list">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th class="text-center">Państwo</th>
-                    <th class="text-center">Nominał</th>
-                    <th class="text-center">Lata bicia</th>
-                    <th class="text-center">Opis</th>
-                    <th class="text-center">Metal</th>
-                    <th class="text-center">Próba</th>
-                    <th class="text-right">Waga [g]</th>
-                    <th class="text-right">Wartość</th>
-                    <th class="text-right">Czas</th>
-                </tr>
-            </thead>
-            <tbody id="coinTable">
-                {% for coin in all_coins %}
-                    <tr style="background-color:
-                        {% if coin.metal.stooq_symbol == 'XAUPLN' %}#fff5cc;
-                        {% elif coin.metal.stooq_symbol == 'XAGPLN' %}#eeeeee;
-                        {% endif %}"
-                    >
-                        <td>
-                            <a href="{% url 'coin_detail' coin.pk %}" title="Szczegóły...">
-                                <span class="glyphicon glyphicon-info-sign"></span>
-                            </a>
-                        </td>
-                        <td>{{ coin.country }}</td>
-                        <td>{{ coin.face_value }}</td>
-                        <td>{{ coin.mint_years }}</td>
-                        <td>{{ coin.description }}</td>
-                        <td>{{ coin.metal.short }}</td>
-                        <td class="text-right">{{ coin.fineness }}</td>
-                        <td class="text-right">{{ coin.weight|floatformat:2 }}</td>
-                        <td class="text-right"><strong id="price_{{ coin.pk }}"></strong></td>
-                        <td id="time_{{ coin.pk }}" class="text-right"></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p class="text-center">Nie ma żadnych monet do pokazania.</p>
-    {% endif %}
+                <table class="table table-condensed table-coin-list">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center">Państwo</th>
+                            <th class="text-center">Nominał</th>
+                            <th class="text-center">Lata bicia</th>
+                            <th class="text-center">Opis</th>
+                            <th class="text-center">Metal</th>
+                            <th class="text-center">Próba</th>
+                            <th class="text-right">Waga [g]</th>
+                            <th class="text-right">Wartość</th>
+                            <th class="text-right">Czas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="coinTable">
+                        {% for coin in all_coins %}
+                            <tr style="background-color:
+                                {% if coin.metal.stooq_symbol == 'XAUPLN' %}#fff5cc;
+                                {% elif coin.metal.stooq_symbol == 'XAGPLN' %}#eeeeee;
+                                {% endif %}"
+                            >
+                                <td>
+                                    <a href="{% url 'coin_detail' coin.pk %}" title="Szczegóły...">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                    </a>
+                                </td>
+                                <td>{{ coin.country }}</td>
+                                <td>{{ coin.face_value }}</td>
+                                <td>{{ coin.mint_years }}</td>
+                                <td>{{ coin.description }}</td>
+                                <td>{{ coin.metal.short }}</td>
+                                <td class="text-right">{{ coin.fineness }}</td>
+                                <td class="text-right">{{ coin.weight|floatformat:2 }}</td>
+                                <td class="text-right"><strong id="price_{{ coin.pk }}"></strong></td>
+                                <td id="time_{{ coin.pk }}" class="text-right"></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-center">Nie ma żadnych monet do pokazania.</p>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}
