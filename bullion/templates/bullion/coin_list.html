@@ -9,6 +9,8 @@
         <h1 class="text-center">Monety</h1>
     </div>
     {% if all_coins %}
+        <input type="text" id="searchInput" onkeyup="search()" placeholder="Szukaj..." class="form-control">
+
         <table class="table table-condensed table-coin-list">
             <thead>
                 <tr>
