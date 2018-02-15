@@ -51,9 +51,11 @@ class GetMetalPricesView(View):
 class UpdateCoinPricesView(View):
     def post(self, request):
         stooq.update_metal_prices()
-        return JsonResponse({})
+        data = models.Coin.last_prices_json()
+        return JsonResponse(data)
 
 
 class GetCoinPricesView(View):
     def get(self, request):
-        return JsonResponse({})
+        data = models.Coin.last_prices_json()
+        return JsonResponse(data)

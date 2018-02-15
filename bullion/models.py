@@ -72,6 +72,16 @@ class Coin(models.Model):
         verbose_name = 'Moneta'
         verbose_name_plural = 'Monety'
 
+    @classmethod
+    def last_prices_json(cls):
+        data = {}
+        for coin in cls.objects.all():
+            data[coin.pk] = {
+                'price': '{:.2f}'.format(coin.last_price),
+                'time': coin.last_price_time.strftime('%Y-%m-%d %H:%M:%S'),
+            }
+        return data
+
     def inline_text(self):
         fields = [self.country, self.face_value, self.mint_years, self.description]
         return ' '.join(str(f) for f in fields)
@@ -82,11 +92,19 @@ class Coin(models.Model):
 
     @property
     def last_price(self):
-        metal_price = self.metal
+        metal_price = self.metal.last_price
         if metal_price is None:
             return None
         else:
             return self.pure_weight * metal_price.value_per_gram
+
+    @property
+    def last_price_time(self):
+        metal_price = self.metal.last_price
+        if metal_price is None:
+            return None
+        else:
+            return metal_price.time
 
     def get_absolute_url(self):
         return reverse('coin_detail', kwargs={'pk': self.pk})
