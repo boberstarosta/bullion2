@@ -26,7 +26,11 @@
             </thead>
             <tbody>
                 {% for coin in all_coins %}
-                    <tr>
+                    <tr style="background-color:
+                        {% if coin.metal.stooq_symbol == 'XAUPLN' %}#fff5cc;
+                        {% elif coin.metal.stooq_symbol == 'XAGPLN' %}#eeeeee;
+                        {% endif %}"
+                    >
                         <td>
                             <a href="{% url 'coin_detail' coin.pk %}" title="Szczegóły...">
                                 <span class="glyphicon glyphicon-info-sign"></span>
