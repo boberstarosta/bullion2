@@ -11,7 +11,7 @@
     {% if all_coins %}
         <input type="text" id="searchInput" onkeyup="search()" placeholder="Szukaj..." class="form-control">
 
-        <table class="table table-condensed table-coin-list">
+        <table id="coinTable" class="table table-condensed table-coin-list">
             <thead>
                 <tr>
                     <th></th>
@@ -61,6 +61,22 @@
 {% block javascript %}
 
 <script>
+
+    function search() {
+        var $rows = $('#coinTable tr');
+        $('#searchInput').keyup(function() {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+            $rows.show().filter(function() {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+    }
+
+
+    // AJAX PRICE REFRESH
+
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
