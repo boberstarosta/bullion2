@@ -60,7 +60,7 @@ class Price(models.Model):
 class Coin(models.Model):
     country = models.CharField(max_length=100, verbose_name='państwo')
     face_value = models.CharField(max_length=100, verbose_name='nominał')
-    mint_years = models.CharField(max_length=100, verbose_name='lata wydania')
+    mint_years = models.CharField(max_length=100, verbose_name='lata bicia')
     description = models.CharField(max_length=200, blank=True, default='', verbose_name='opis')
 
     metal = models.ForeignKey(Metal, on_delete=models.CASCADE, verbose_name='metal')
