@@ -4,8 +4,6 @@
 
 {% block content %}
 
-{% load static %}
-
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -16,8 +14,10 @@
                 </div>
 
                 <div class="panel-body">
-                    <h3><small>cena ({{coin.metal.last_price_time}})</small></h3>
-                    <h1><span class="label label-warning">{{ coin.price|floatformat:2 }} zł</span></h1>
+                    <h3><small>cena (<span id="time"></span>)</small></h3>
+                    <h1>
+                        <span id="price" class="label label-warning"></span>
+                    </h1>
                     <hr>
                     <table>
                         <tr><td>{{ coin.country }}</td></tr>
@@ -27,7 +27,7 @@
                         <tr><td>{{ coin.metal }}</td></tr>
                         <tr><td>{{ coin.weight }} g</td></tr>
                         <tr><td>{{ coin.fineness }} /1000</td></tr>
-                        <tr><td>{{ coin.metal.last_price_time }}</td></tr>
+                        <tr><td></td></tr>
                     </table>
                 </div>
 
@@ -44,5 +44,62 @@
         </div>
     </div>
 </div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        }
+    });
+
+    function updatePricesOnPage(data) {
+        console.log({{ coin.pk }})
+        console.log(data[{{ coin.pk }}]['price'])
+        $('#price').text(data[{{ coin.pk }}]['price'] + ' zł')
+        $('#time').text(data[{{ coin.pk }}]['time'])
+    }
+
+    function sendUpdatePricesRequest() {
+        $.ajax({
+            url: '{% url 'update_coin_prices' %}',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                updatePricesOnPage(data)
+            },
+            error: function(xhr, textStatus, error) {
+                console.log('AJAX error: ' + xhr.status + ' ' + error)
+            }
+        })
+    }
+
+    function sendGetPricesRequest() {
+        $.ajax({
+            url: '{% url 'get_coin_prices' %}',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                updatePricesOnPage(data)
+            },
+            error: function(xhr, textStatus, error) {
+                console.log('AJAX error: ' + xhr.status + ' ' + error)
+            }
+        })
+    }
+
+    $(document).ready( function() {
+        sendGetPricesRequest();
+        sendUpdatePricesRequest();
+    });
+
+    setInterval(function () {
+        sendUpdatePricesRequest();
+    }, 10000);
+
+</script>
 
 {% endblock %}
