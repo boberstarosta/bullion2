@@ -15,9 +15,7 @@
 
                 <div class="panel-body">
                     <h3><small>cena (<span id="time"></span>)</small></h3>
-                    <h1>
-                        <span id="price" class="label label-warning"></span>
-                    </h1>
+                    <h1><span id="price" class="label label-warning"></span></h1>
                     <hr>
                     <table>
                         <tr><td>{{ coin.country }}</td></tr>
@@ -35,7 +33,7 @@
                     <a href="{% url 'coin_update' coin.pk %}" class="btn btn-default btn-sm" role="button" title="Edytuj">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
-                    <a href="{% url 'coin_delete' coin.pk %}" class="btn btn-default btn-sm" role="button", title="Usuń">
+                    <a href="{% url 'coin_delete' coin.pk %}" class="btn btn-default btn-sm" role="button" title="Usuń">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </div>
