@@ -13,6 +13,7 @@ class MetalListView(ListView):
 class CoinListView(ListView):
     model = models.Coin
     context_object_name = 'all_coins'
+    ordering = ['metal', 'country', 'face_value']
 
 
 class CoinDetailView(DetailView):
