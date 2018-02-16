@@ -14,7 +14,7 @@
             {% if all_coins %}
                 <input type="text" id="searchInput" placeholder="Szukaj..." class="form-control">
 
-                <table class="table table-condensed table-coin-list">
+                <table class="table table-condensed">
                     <thead>
                         <tr>
                             <th></th>
@@ -29,7 +29,7 @@
                             <th class="text-right">Czas</th>
                         </tr>
                     </thead>
-                    <tbody id="coinTable">
+                    <tbody id="coinTable" class="table-coin-list">
                         {% for coin in all_coins %}
                             <tr style="background-color:
                                 {% if coin.metal.stooq_symbol == 'XAUPLN' %}#fff5cc;
